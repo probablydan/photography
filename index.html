@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Dan Tran Photography</title>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="description" content="Photographic portfolio of Dan Tran." />
+<meta name="apple-mobile-web-app-title" content="Dt photo" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<link href="apple-touch-startup-image-640x920.png" sizes="640x920" rel="apple-touch-startup-image" />
+<link href="apple-touch-startup-image-640x1096.png" sizes="640x1096" rel="apple-touch-startup-image" />
+<link rel="stylesheet" href="cssreset.css" type="text/css" />
+<link rel="stylesheet" href="style.css" type="text/css" />
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+
+<script src="dtPhotoViewer.js"></script>
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-40919830-1', 'dtran.org');
+ga('send', 'pageview');
+
+</script>
+<script type="text/javascript">
+
+	var timeoutHandle;
+	
+	// Google Web Fonts
+	WebFontConfig = { google: { families: [ 'Cabin' ] },
+		active: function(){ $("#wrapper").animate({opacity: 1.0}, 'slow'); }
+	};
+	(function() {
+		var wf = document.createElement('script');
+		wf.src = ('https:' == document.location.protocol ? 'https' : 'http') +
+		'://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
+		wf.type = 'text/javascript';
+		wf.async = 'true';
+		var s = document.getElementsByTagName('script')[0];
+		s.parentNode.insertBefore(wf, s);
+	})();
+
+	function moveFooter(offset) {
+		d('moveFooter(' + offset + ') called, footer pos = ' + JSON.stringify($('#footer').position()));
+		$('#footer').animate({top: ($(window).height() - offset) + 'px'}, 200, function() {
+			d('footer now ' + JSON.stringify($('#footer').position()));
+		});
+	}
+
+	function moveFooterImmediately(offset) {
+		$('#footer').css('top', ($(window).height() - offset) + 'px');
+	}
+	
+	function showFooter() {
+		// Because we don't want to do fancy math, let's just use the DOM
+		// to figure out if the footer exceeds the height of the page
+		while($('#footer').height() > $(window).height()) {
+			d('Footer (' + $('#footer').height() + 'px) too tall for window (' + $(window).height() + 'px), resizing thumbs');
+
+			// Find first thumbnail height
+			var thumbHeight = Math.floor($('.filmstripThumb > img').first().height());
+
+			// Make it 80% tall
+			thumbHeight = Math.floor(0.80 * thumbHeight);
+			$('.filmstripThumb > img').css('height', thumbHeight + 'px');
+
+			// Are we short enough?
+		}
+
+		moveFooter($('#footer').outerHeight());
+	}
+
+	function showFooterBreadcrumb() {
+		var height = $('#breadcrumbContainer').outerHeight();
+		moveFooter(height);
+	}
+	
+	function showFooterBreadcrumbAndDescription() {
+		var height = $('#breadcrumbContainer').outerHeight() + $('#description').outerHeight();
+		moveFooter(height);
+	}
+
+	function hideFooterSequence() {
+		showFooterBreadcrumbAndDescription();
+		timeoutHandle = window.setTimeout( function () {
+			showFooterBreadcrumb();
+		}, 3000);
+	}
+
+	function hideFooter() {
+		showFooterBreadcrumb();
+	}
+	
+	function initFooter() {
+		d("initFooter");
+		hideFooterSequence();
+	}
+
+	function refreshFooter() {
+		showFooterBreadcrumb();
+	}
+	
+	function doAThing() {
+		positionDisplayImage();
+	}
+
+	$(document).ready(function() {
+		
+		$('#footer').hover(function() {
+			window.clearTimeout(timeoutHandle);
+			showFooter();
+		},function() {
+			window.clearTimeout(timeoutHandle);
+			timeoutHandle = window.setTimeout("hideFooterSequence()", 1000);
+
+		});
+		$(document).on('mouseover', '.shaded', function() { 
+			$(this).stop().animate({opacity: '1.0'}, 200);
+		});
+		$(document).on('mouseout', '.shaded', function() { 
+			$(this).stop().animate({opacity: '0.5'}, 200);
+		});
+		$(document).keydown(function(event) {
+			var key = event.keyCode || event.which;
+			if (key == 39) { // Right key pressed
+				var next = $('#afterPhotoLink').attr('href');
+				if (next != undefined) {
+					window.location = next;
+				}
+			}
+			if (key == 37) { // Left key pressed
+				var next = $('#beforePhotoLink').attr('href');
+				if (next != undefined) {
+					window.location = next;
+				}
+			}
+		});
+	});
+	$(window).ready(function() {
+		//hideFooterSequence();
+		//initFooter();
+	});
+</script>
+</head>
+
+<body>
+<div id="wrapper">
+<div id="debug"></div>
+<div id="loadingHint"><span class="lhUnit">&bull;</span><span class="lhUnit">&bull;</span><span class="lhUnit">&bull;</span></div>
+<div id="lightswitch">
+	<div id="lightswitch_light" onclick="lightswitch(100);">100</div>
+	<div id="lightswitch_medium" onclick="lightswitch(88);">88</div>
+	<div id="lightswitch_dark" onclick="lightswitch(8);">8</div>
+</div>
+<div id="menu">
+	<div id="menu_dl_orig" onclick="lightswitch(100);">ORIG</div>
+	<div id="menu_doathing" onclick="doAThing();">DO A THING</div>
+	<div id="menu_info"></div>
+</div>
+<div id="photoBox">
+	<a id="beforePhotoLink"><span id="beforeArrow" class="shaded">&lt;</span></a>
+	<img id="photo" />
+	<a id="afterPhotoLink"><span id="afterArrow" class="shaded">&gt;</span></a>
+	<div id="caption"></div>
+</div>
+<div id="footer">
+	<div id="breadcrumbContainer">
+		<span id="breadcrumbTitle">Dan Tran Photography</span>
+		<span id="breadcrumbSeparator">&nbsp;&gt;&nbsp;</span>
+		<span id="breadcrumb"></span>
+	
+	</div>
+	<div id="description" class="footerContent"></div>
+	<div id="filmstrip" class="footerContent"></div>
+	<div id="collections" class="footerContent">
+		<span id="collectionTitle">Collections</span>
+	</div>
+</div>
+</div>
+</body>
+</html>

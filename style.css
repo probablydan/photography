@@ -1,0 +1,220 @@
+.wf-active body {
+	font-family: 'Cabin';
+}
+
+img {
+	max-width: inherit;
+}
+
+body {
+	margin: 0;
+	font-size: 14pt;
+	font-family: 'Cabin', sans-serif;
+	color: rgb(43, 43, 43);
+}
+
+#wrapper {
+	opacity: 0;
+	overflow: hidden;
+}
+
+#debug {
+	position: absolute;
+	bottom: 50%;
+	left: 0;
+	font-size: 0.8em;
+}
+
+#footer {
+	background-color: #202020; 
+	position: fixed;
+	top: 100%;
+	width: 100%;
+	color: white;
+	z-index: 50;
+}
+
+.footerContent {
+}
+
+#footerFirstThird {
+	display: none;
+}
+
+#collections {
+	font-size: 1em;
+	z-index: 10;
+	color: black;
+	background-color: white;
+	padding-left: 1em;
+	min-height: 2em;
+
+}
+
+#collectionTitle {
+	padding-right: 0.5em;
+}
+
+.collection {
+	display: inline-block;
+	font-size: 0.8em;
+	/* background-color: rgb(4, 60, 160); */
+	background-color: rgb(121, 121, 121);
+	color: rgb(255,255,255);
+	padding: 0.5em 1em 0.5em 1em;
+	margin-right: 0.3em;
+}
+.collection a {
+	text-decoration: none;
+	color: white;
+}
+
+#breadcrumbContainer {
+	font-size: 1em;
+	padding: 1em;
+	z-index: 10;
+	color: white;
+	background: url('dtp-white-small.png');
+	background-repeat: no-repeat;
+	background-position: right;
+
+}
+
+@media only screen and (-webkit-min-device-pixel-ratio: 2) {
+}
+
+#beforeArrow, #afterArrow {
+	position: absolute;
+	top: 50%;
+	margin-top: -1em;
+	z-index: 40;
+	font-size: 5em;
+	color: rgb(121, 121, 121);
+}
+#beforeArrow {
+	left: 0;
+}
+
+#afterArrow {
+	right: 0;
+}
+
+
+#photoBox {
+	opacity: 0;
+	text-align: center;
+}
+
+#photo {
+	-moz-box-shadow: 0 0 0.5em 0.2em #888;
+	-webkit-box-shadow: 0 0 0.5em 0.2em #888;
+	box-shadow: 0 0 0.5em 0.2em #888;
+	z-index: 0;
+}
+
+#caption {
+	padding: 1.5em 0 0.5em 0;
+	text-align: center;
+	font-size: 0.75em;
+	z-index: 5;
+}
+
+
+#filmstrip {
+}
+
+#filmstrip img {
+	cursor: pointer;
+	padding: 0em 0.5em 0.2em 0em;
+}
+
+
+#logo {
+	position: absolute;
+	right: 0;
+}
+
+
+#lightswitch {
+	display: none;
+	position: absolute;
+	bottom: 4em;
+	right: 1em;
+}
+
+#lightswitch div {
+	width: 2em;
+	height: 2em;
+	display: inline-block;
+	background-color: rgb(212, 212, 212);
+	font-size: 0.5em;
+	cursor: pointer;
+}
+
+#menu {
+	display: none;
+	position: absolute;
+	top: 4em;
+	right: 1em;
+	width: 2em;
+	z-index: 40;
+}
+
+#menu div {
+	width: 2em;
+	height: 2em;
+	display: inline-block;
+	background-color: rgb(21, 21, 21);
+	color: rgb(212, 212, 212);
+	font-size: 0.5em;
+	cursor: pointer;
+}
+
+#menuIcon {
+	font-size: 3em;
+	position: absolute;
+	left: -0.35em;
+	top: -0.1em;
+}
+
+
+#description {
+	font-size: 1em;
+	padding: 1em;
+	padding-top: 0;
+
+	color: rgb(212, 212, 212);
+}
+
+.shaded {
+	opacity: 0.5;
+}
+
+.bubbled {
+	color: white;
+	background-color: rgb(128, 128, 128);
+	border-radius: 2em;
+	padding: 0.2em 0.8em 0.2em 0.8em;
+	font-size: 0.6em;
+
+}
+
+.bubbledBreadcrumb {
+	color: rgb(32, 32, 32);
+	background-color: white;
+	border-radius: 2em;
+	padding: 0.2em 0.8em 0.2em 0.8em;
+}
+
+#loadingHint {
+	color: rgb(212, 212, 212);
+	font-size: 2em;
+	letter-spacing: 0.2em;
+	position: absolute;
+	top: 50%;
+	margin-top: -1em;
+	width: 100%;
+	text-align: center;
+	z-index: -10;
+}
+

@@ -46,10 +46,11 @@ To run this, you'll need a Web server that has the following components:
 
 At browser load, everything is completely client-side, so no server-side processing is needed. Just serving up the photos is all.
 
+The project also links to a CDN hosted jQuery file.
 
 #### HOW TO USE
 
-This section is going to be written someday. For now, you can infer how things work by looking at a sample source directory layout:
+This section is going to be written someday. For now, you can infer how things work by looking at a sample source directory layout that a user would build:
 
 	s/
 	-- 000-hello (an uncompleted set, reversed so new photos show up first)
@@ -73,5 +74,7 @@ This section is going to be written someday. For now, you can infer how things w
 	---- 03.jpg
 	---- description.txt
 	---- displayName.txt
+
+When the generate.php script is run, a JSON file and photo derivatives are deposited into d/.
 
 The only hidden feature here is that (optional) captions are pulled from embedded IPTC titles in the photo.
