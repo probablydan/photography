@@ -104,7 +104,6 @@ function d(text) {
 	//debug.append(text + '<br />');
 }
 
-
 // Do these things only once on page load
 function init() {
 	generateCollectionList();
@@ -113,17 +112,28 @@ function init() {
 
 // Do these on hash changes
 function refresh() {
+	// Change the state to reflect currently chosen photo
 	populateState();
+
+	// OK, we have the state - let's prefetch the photo as early as possible
+	prefetchPhoto(getPhotoDisplayUrl(state.curCollectionId, state.curPhotoName));
+
+	// Change-o!
+	changePhoto();
+
+	// If we moved collections, we have some rendering to do in the footer
 	if (state.collectionChanged) {
 		generateTitleDescription();
 		generateFilmstrip();
 		initFooter();
 	}
-	changePhoto();
 }
 
 
 function changePhoto() {
+	// Our priority is to get the image up as fast as possible, then worry about prefetching
+	// and other nice-to-haves
+
 	d('changePhoto()');
 	var photo = $('#photo');
 	var photoBox = $('#photoBox');
@@ -134,7 +144,7 @@ function changePhoto() {
 		showLoadingHint();
 	}, 500);
 
-	// Start pulling the image down now
+	// Start pulling the image down now (although we should already have it)
 	prefetchPhoto(pDURL);
 
 	// Set up the callback so when previous image is faded out
@@ -162,9 +172,13 @@ function changePhoto() {
 
 		// Show the image
 		showImage();
+
+		// OK, the audience is happy, let's now handle before/after links and prefetch
+		populateBeforeAfter();
 	}
-	
+
 	// Change of image data needs to be while hidden
+	// The callback should fire immediately if photoBox opacity = 0 (new page load)
 	photoBox.animate({opacity: '0'},'fast', function() {
 		// Likely done by now, as we prefetched at the beginning of this call
 		// Here to trigger callback
@@ -173,12 +187,14 @@ function changePhoto() {
 		// Show caption
 		$('#caption').text(state.curPhotoCaption);
 	});
+	
+}
 
-
-	var photoBox = $('#photoBox');
-
+function populateBeforeAfter() {
+	// This handles before/after arrow links, and prefetching of before/after display links
 	var bPL = $('#beforePhotoLink');
 	var aPL = $('#afterPhotoLink');
+
 	bPL.hide();
 	aPL.hide();
 
@@ -190,7 +206,6 @@ function changePhoto() {
 	var beforeDisplayUrl = "";
 	var afterDisplayUrl = "";
 
-
 	if (state.beforePhotoName != null) {
 		beforeThumbUrl = "d/" + state.curCollectionId + "/thumb/" + state.beforePhotoName + ".jpg";
 		beforeDisplayUrl = "d/" + state.curCollectionId + "/display/" + state.beforePhotoName + ".jpg";
@@ -199,6 +214,7 @@ function changePhoto() {
 		bPL.attr('href', beforePhotoUrl);
 		bPL.show();
 	}
+
 	if (state.afterPhotoName != null) {
 		afterThumbUrl = "d/" + state.curCollectionId + "/thumb/" + state.afterPhotoName + ".jpg";
 		afterDisplayUrl = "d/" + state.curCollectionId + "/display/" + state.afterPhotoName + ".jpg";
@@ -206,9 +222,7 @@ function changePhoto() {
 		prefetchPhoto(afterDisplayUrl);
 		aPL.attr('href', afterPhotoUrl);
 		aPL.show();
-
 	}
-	
 }
 
 function populateState() {
@@ -287,8 +301,6 @@ function lightswitch(percentage) {
 	$('body').animate({backgroundColor: 'rgb(' + i + ',' + i + ',' + i + ')'}, 250);
 }
 
-
-
 function generateFilmstrip() {
 	var f = $('#filmstrip');
 	f.empty();
@@ -301,7 +313,6 @@ function generateFilmstrip() {
 										.append(photoThumbImg);
 		f.append(photoThumbLink);
 	}
-
 }
 
 function prefetchPhoto(url) {
